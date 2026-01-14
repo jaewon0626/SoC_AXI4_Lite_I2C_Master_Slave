@@ -1,0 +1,5 @@
+Nothing to build in platform 'i2c_cpu_wrapper'
+
+15:51:15 **** Incremental Build of configuration Debug for project i2c_test ****
+make all 
+make: Nothing to be done for 'all'.

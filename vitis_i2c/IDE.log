@@ -1,0 +1,126 @@
+15:22:58 INFO  : Launching XSCT server: xsct.bat -n  -interactive D:\working\systemverilog\2025_11_14_I2C_IP_project\vitis_i2c\temp_xsdb_launch_script.tcl
+15:22:58 INFO  : Registering command handlers for Vitis TCF services
+15:23:00 INFO  : XSCT server has started successfully.
+15:23:00 INFO  : Platform repository initialization has completed.
+15:23:00 INFO  : Successfully done setting XSCT server connection channel  
+15:23:00 INFO  : plnx-install-location is set to ''
+15:23:01 INFO  : Successfully done query RDI_DATADIR 
+15:23:01 INFO  : Successfully done setting workspace for the tool. 
+15:23:23 INFO  : Result from executing command 'getProjects': i2c_cpu_wrapper
+15:23:23 INFO  : Result from executing command 'getPlatforms': 
+15:23:24 WARN  : An unexpected exception occurred in the module 'platform project logging'
+15:23:24 INFO  : Platform 'i2c_cpu_wrapper' is added to custom repositories.
+15:23:25 INFO  : Platform 'i2c_cpu_wrapper' is added to custom repositories.
+15:24:10 INFO  : Result from executing command 'getProjects': i2c_cpu_wrapper
+15:24:10 INFO  : Result from executing command 'getPlatforms': i2c_cpu_wrapper|D:/working/systemverilog/2025_11_14_I2C_IP_project/vitis_i2c/i2c_cpu_wrapper/export/i2c_cpu_wrapper/i2c_cpu_wrapper.xpfm
+15:24:10 INFO  : Checking for BSP changes to sync application flags for project 'i2c_test'...
+15:24:20 INFO  : Connected to target on host '127.0.0.1' and port '3121'.
+15:24:21 INFO  : Jtag cable 'Digilent Basys3 210183BE1106A' is selected.
+15:24:21 INFO  : 'jtag frequency' command is executed.
+15:24:21 INFO  : 'targets -set -filter {jtag_cable_name =~ "Digilent Basys3 210183BE1106A" && level==0 && jtag_device_ctx=="jsn-Basys3-210183BE1106A-0362d093-0"}' command is executed.
+15:24:21 INFO  : Device configured successfully with "D:/working/systemverilog/2025_11_14_I2C_IP_project/vitis_i2c/i2c_test/_ide/bitstream/i2c_cpu_wrapper.bit"
+15:24:21 INFO  : Context for processor 'microblaze_0' is selected.
+15:24:21 INFO  : Hardware design and registers information is loaded from 'D:/working/systemverilog/2025_11_14_I2C_IP_project/vitis_i2c/i2c_cpu_wrapper/export/i2c_cpu_wrapper/hw/i2c_cpu_wrapper.xsa'.
+15:24:21 INFO  : 'configparams mdm-detect-bscan-mask 2' command is executed.
+15:24:21 INFO  : Context for processor 'microblaze_0' is selected.
+15:24:21 INFO  : System reset is completed.
+15:24:24 INFO  : 'after 3000' command is executed.
+15:24:24 INFO  : Context for processor 'microblaze_0' is selected.
+15:24:25 INFO  : The application 'D:/working/systemverilog/2025_11_14_I2C_IP_project/vitis_i2c/i2c_test/Debug/i2c_test.elf' is downloaded to processor 'microblaze_0'.
+15:24:25 INFO  : ----------------XSDB Script----------------
+connect -url tcp:127.0.0.1:3121
+targets -set -filter {jtag_cable_name =~ "Digilent Basys3 210183BE1106A" && level==0 && jtag_device_ctx=="jsn-Basys3-210183BE1106A-0362d093-0"}
+fpga -file D:/working/systemverilog/2025_11_14_I2C_IP_project/vitis_i2c/i2c_test/_ide/bitstream/i2c_cpu_wrapper.bit
+targets -set -nocase -filter {name =~ "*microblaze*#0" && bscan=="USER2" }
+loadhw -hw D:/working/systemverilog/2025_11_14_I2C_IP_project/vitis_i2c/i2c_cpu_wrapper/export/i2c_cpu_wrapper/hw/i2c_cpu_wrapper.xsa -regs
+configparams mdm-detect-bscan-mask 2
+targets -set -nocase -filter {name =~ "*microblaze*#0" && bscan=="USER2" }
+rst -system
+after 3000
+targets -set -nocase -filter {name =~ "*microblaze*#0" && bscan=="USER2" }
+dow D:/working/systemverilog/2025_11_14_I2C_IP_project/vitis_i2c/i2c_test/Debug/i2c_test.elf
+----------------End of Script----------------
+
+15:24:25 INFO  : Context for processor 'microblaze_0' is selected.
+15:24:25 INFO  : 'con' command is executed.
+15:24:25 INFO  : ----------------XSDB Script (After Launch)----------------
+targets -set -nocase -filter {name =~ "*microblaze*#0" && bscan=="USER2" }
+con
+----------------End of Script----------------
+
+15:24:25 INFO  : Launch script is exported to file 'D:\working\systemverilog\2025_11_14_I2C_IP_project\vitis_i2c\i2c_test_system\_ide\scripts\debugger_i2c_test-default.tcl'
+15:30:31 INFO  : Checking for BSP changes to sync application flags for project 'i2c_test'...
+15:30:36 INFO  : Disconnected from the channel tcfchan#2.
+15:30:37 INFO  : Connected to target on host '127.0.0.1' and port '3121'.
+15:30:37 INFO  : Jtag cable 'Digilent Basys3 210183BE1106A' is selected.
+15:30:37 INFO  : 'jtag frequency' command is executed.
+15:30:37 INFO  : 'targets -set -filter {jtag_cable_name =~ "Digilent Basys3 210183BE1106A" && level==0 && jtag_device_ctx=="jsn-Basys3-210183BE1106A-0362d093-0"}' command is executed.
+15:30:38 INFO  : Device configured successfully with "D:/working/systemverilog/2025_11_14_I2C_IP_project/vitis_i2c/i2c_test/_ide/bitstream/i2c_cpu_wrapper.bit"
+15:30:38 INFO  : Context for processor 'microblaze_0' is selected.
+15:30:38 INFO  : Hardware design and registers information is loaded from 'D:/working/systemverilog/2025_11_14_I2C_IP_project/vitis_i2c/i2c_cpu_wrapper/export/i2c_cpu_wrapper/hw/i2c_cpu_wrapper.xsa'.
+15:30:38 INFO  : 'configparams mdm-detect-bscan-mask 2' command is executed.
+15:30:38 INFO  : Context for processor 'microblaze_0' is selected.
+15:30:38 INFO  : System reset is completed.
+15:30:41 INFO  : 'after 3000' command is executed.
+15:30:41 INFO  : Context for processor 'microblaze_0' is selected.
+15:30:41 INFO  : The application 'D:/working/systemverilog/2025_11_14_I2C_IP_project/vitis_i2c/i2c_test/Debug/i2c_test.elf' is downloaded to processor 'microblaze_0'.
+15:30:41 INFO  : ----------------XSDB Script----------------
+connect -url tcp:127.0.0.1:3121
+targets -set -filter {jtag_cable_name =~ "Digilent Basys3 210183BE1106A" && level==0 && jtag_device_ctx=="jsn-Basys3-210183BE1106A-0362d093-0"}
+fpga -file D:/working/systemverilog/2025_11_14_I2C_IP_project/vitis_i2c/i2c_test/_ide/bitstream/i2c_cpu_wrapper.bit
+targets -set -nocase -filter {name =~ "*microblaze*#0" && bscan=="USER2" }
+loadhw -hw D:/working/systemverilog/2025_11_14_I2C_IP_project/vitis_i2c/i2c_cpu_wrapper/export/i2c_cpu_wrapper/hw/i2c_cpu_wrapper.xsa -regs
+configparams mdm-detect-bscan-mask 2
+targets -set -nocase -filter {name =~ "*microblaze*#0" && bscan=="USER2" }
+rst -system
+after 3000
+targets -set -nocase -filter {name =~ "*microblaze*#0" && bscan=="USER2" }
+dow D:/working/systemverilog/2025_11_14_I2C_IP_project/vitis_i2c/i2c_test/Debug/i2c_test.elf
+----------------End of Script----------------
+
+15:30:41 INFO  : Context for processor 'microblaze_0' is selected.
+15:30:41 INFO  : 'con' command is executed.
+15:30:41 INFO  : ----------------XSDB Script (After Launch)----------------
+targets -set -nocase -filter {name =~ "*microblaze*#0" && bscan=="USER2" }
+con
+----------------End of Script----------------
+
+15:30:41 INFO  : Launch script is exported to file 'D:\working\systemverilog\2025_11_14_I2C_IP_project\vitis_i2c\i2c_test_system\_ide\scripts\debugger_i2c_test-default.tcl'
+15:51:15 INFO  : Checking for BSP changes to sync application flags for project 'i2c_test'...
+15:51:21 INFO  : Disconnected from the channel tcfchan#3.
+15:51:22 INFO  : Connected to target on host '127.0.0.1' and port '3121'.
+15:51:23 INFO  : Jtag cable 'Digilent Basys3 210183BE10F0A' is selected.
+15:51:23 INFO  : 'jtag frequency' command is executed.
+15:51:23 INFO  : 'targets -set -filter {jtag_cable_name =~ "Digilent Basys3 210183BE10F0A" && level==0 && jtag_device_ctx=="jsn-Basys3-210183BE10F0A-0362d093-0"}' command is executed.
+15:51:23 INFO  : Device configured successfully with "D:/working/systemverilog/2025_11_14_I2C_IP_project/vitis_i2c/i2c_test/_ide/bitstream/i2c_cpu_wrapper.bit"
+15:51:23 INFO  : Context for processor 'microblaze_0' is selected.
+15:51:23 INFO  : Hardware design and registers information is loaded from 'D:/working/systemverilog/2025_11_14_I2C_IP_project/vitis_i2c/i2c_cpu_wrapper/export/i2c_cpu_wrapper/hw/i2c_cpu_wrapper.xsa'.
+15:51:23 INFO  : 'configparams mdm-detect-bscan-mask 2' command is executed.
+15:51:23 INFO  : Context for processor 'microblaze_0' is selected.
+15:51:23 INFO  : System reset is completed.
+15:51:26 INFO  : 'after 3000' command is executed.
+15:51:26 INFO  : Context for processor 'microblaze_0' is selected.
+15:51:26 INFO  : The application 'D:/working/systemverilog/2025_11_14_I2C_IP_project/vitis_i2c/i2c_test/Debug/i2c_test.elf' is downloaded to processor 'microblaze_0'.
+15:51:26 INFO  : ----------------XSDB Script----------------
+connect -url tcp:127.0.0.1:3121
+targets -set -filter {jtag_cable_name =~ "Digilent Basys3 210183BE10F0A" && level==0 && jtag_device_ctx=="jsn-Basys3-210183BE10F0A-0362d093-0"}
+fpga -file D:/working/systemverilog/2025_11_14_I2C_IP_project/vitis_i2c/i2c_test/_ide/bitstream/i2c_cpu_wrapper.bit
+targets -set -nocase -filter {name =~ "*microblaze*#0" && bscan=="USER2" }
+loadhw -hw D:/working/systemverilog/2025_11_14_I2C_IP_project/vitis_i2c/i2c_cpu_wrapper/export/i2c_cpu_wrapper/hw/i2c_cpu_wrapper.xsa -regs
+configparams mdm-detect-bscan-mask 2
+targets -set -nocase -filter {name =~ "*microblaze*#0" && bscan=="USER2" }
+rst -system
+after 3000
+targets -set -nocase -filter {name =~ "*microblaze*#0" && bscan=="USER2" }
+dow D:/working/systemverilog/2025_11_14_I2C_IP_project/vitis_i2c/i2c_test/Debug/i2c_test.elf
+----------------End of Script----------------
+
+15:51:26 INFO  : Context for processor 'microblaze_0' is selected.
+15:51:26 INFO  : 'con' command is executed.
+15:51:26 INFO  : ----------------XSDB Script (After Launch)----------------
+targets -set -nocase -filter {name =~ "*microblaze*#0" && bscan=="USER2" }
+con
+----------------End of Script----------------
+
+15:51:26 INFO  : Launch script is exported to file 'D:\working\systemverilog\2025_11_14_I2C_IP_project\vitis_i2c\i2c_test_system\_ide\scripts\debugger_i2c_test-default.tcl'
+16:24:13 INFO  : Disconnected from the channel tcfchan#4.

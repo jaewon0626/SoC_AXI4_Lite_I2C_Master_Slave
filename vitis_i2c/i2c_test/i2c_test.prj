@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="ASCII"?>
+<sdkproject:SdkProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sdkproject="http://www.xilinx.com/sdkproject" name="i2c_test" location="D:/working/systemverilog/2025_11_14_I2C_IP_project/vitis_i2c/i2c_test" platform="D:/working/systemverilog/2025_11_14_I2C_IP_project/vitis_i2c/i2c_cpu_wrapper/export/i2c_cpu_wrapper/i2c_cpu_wrapper.xpfm" platformUID="xilinx:basys3::0.0(custom)" systemProject="i2c_test_system" sysConfig="i2c_cpu_wrapper" runtime="cpp" cpu="standalone_microblaze_0" cpuInstance="microblaze_0" os="standalone" mssSignature="b3f970fb639d2c1d9c04c43f03034d3b">
+  <configuration name="Debug" id="xilinx.gnu.mb.exe.debug.1776480432">
+    <configBuildOptions xsi:type="sdkproject:SdkOptions"/>
+    <lastBuildOptions xsi:type="sdkproject:SdkOptions"/>
+  </configuration>
+  <configuration name="Release" id="xilinx.gnu.mb.exe.release.347066706" dirty="true">
+    <configBuildOptions xsi:type="sdkproject:SdkOptions"/>
+  </configuration>
+  <template appTemplateName="empty_application"/>
+</sdkproject:SdkProject>

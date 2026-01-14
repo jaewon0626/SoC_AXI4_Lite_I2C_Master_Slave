@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2020.2 (64-bit)
+# SW Build 3064766 on Wed Nov 18 09:12:45 MST 2020
+# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+# Start of session at: Fri Nov 14 15:20:36 2025
+# Process ID: 4836
+# Current directory: D:/working/systemverilog/2025_11_14_I2C_IP_project/2025_11_14_I2C_IP_project.runs/impl_1
+# Command line: vivado.exe -log i2c_cpu_wrapper.vdi -applog -product Vivado -messageDb vivado.pb -mode batch -source i2c_cpu_wrapper.tcl -notrace
+# Log file: D:/working/systemverilog/2025_11_14_I2C_IP_project/2025_11_14_I2C_IP_project.runs/impl_1/i2c_cpu_wrapper.vdi
+# Journal file: D:/working/systemverilog/2025_11_14_I2C_IP_project/2025_11_14_I2C_IP_project.runs/impl_1\vivado.jou
+#-----------------------------------------------------------
+source i2c_cpu_wrapper.tcl -notrace

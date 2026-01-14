@@ -1,0 +1,6 @@
+/*i2c_cpu_wrapper*/
+the_ROM_image:
+{
+   <bitstream> 
+   <elf> 
+}
