@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2020.2 (64-bit)
+# SW Build 3064766 on Wed Nov 18 09:12:45 MST 2020
+# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+# Start of session at: Sun Nov 16 22:56:13 2025
+# Process ID: 5960
+# Current directory: D:/working/systemverilog/2025_11_14_test_slave/2025_11_14_test_slave.runs/impl_1
+# Command line: vivado.exe -log top_I2C_Slave.vdi -applog -product Vivado -messageDb vivado.pb -mode batch -source top_I2C_Slave.tcl -notrace
+# Log file: D:/working/systemverilog/2025_11_14_test_slave/2025_11_14_test_slave.runs/impl_1/top_I2C_Slave.vdi
+# Journal file: D:/working/systemverilog/2025_11_14_test_slave/2025_11_14_test_slave.runs/impl_1\vivado.jou
+#-----------------------------------------------------------
+source top_I2C_Slave.tcl -notrace

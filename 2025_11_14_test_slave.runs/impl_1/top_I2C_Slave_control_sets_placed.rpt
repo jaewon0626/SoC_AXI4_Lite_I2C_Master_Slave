@@ -1,0 +1,88 @@
+Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
+------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
+| Date         : Sun Nov 16 22:56:45 2025
+| Host         : DESKTOP-7CFQ9ND running 64-bit major release  (build 9200)
+| Command      : report_control_sets -verbose -file top_I2C_Slave_control_sets_placed.rpt
+| Design       : top_I2C_Slave
+| Device       : xc7a35t
+------------------------------------------------------------------------------------------
+
+Control Set Information
+
+Table of Contents
+-----------------
+1. Summary
+2. Histogram
+3. Flip-Flop Distribution
+4. Detailed Control Set Information
+
+1. Summary
+----------
+
++----------------------------------------------------------+-------+
+|                          Status                          | Count |
++----------------------------------------------------------+-------+
+| Total control sets                                       |    10 |
+|    Minimum number of control sets                        |    10 |
+|    Addition due to synthesis replication                 |     0 |
+|    Addition due to physical synthesis replication        |     0 |
+| Unused register locations in slices containing registers |    19 |
++----------------------------------------------------------+-------+
+* Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
+** Run report_qor_suggestions for automated merging and remapping suggestions
+
+
+2. Histogram
+------------
+
++--------------------+-------+
+|       Fanout       | Count |
++--------------------+-------+
+| Total control sets |    10 |
+| >= 0 to < 4        |     2 |
+| >= 4 to < 6        |     0 |
+| >= 6 to < 8        |     1 |
+| >= 8 to < 10       |     6 |
+| >= 10 to < 12      |     0 |
+| >= 12 to < 14      |     0 |
+| >= 14 to < 16      |     0 |
+| >= 16              |     1 |
++--------------------+-------+
+* Control sets can be remapped at either synth_design or opt_design
+
+
+3. Flip-Flop Distribution
+-------------------------
+
++--------------+-----------------------+------------------------+-----------------+--------------+
+| Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
++--------------+-----------------------+------------------------+-----------------+--------------+
+| No           | No                    | No                     |               3 |            2 |
+| No           | No                    | Yes                    |              49 |           15 |
+| No           | Yes                   | No                     |              10 |            4 |
+| Yes          | No                    | No                     |               7 |            2 |
+| Yes          | No                    | Yes                    |               0 |            0 |
+| Yes          | Yes                   | No                     |              40 |           18 |
++--------------+-----------------------+------------------------+-----------------+--------------+
+
+
+4. Detailed Control Set Information
+-----------------------------------
+
++--------------------------------------------+----------------------------+------------------+------------------+----------------+--------------+
+|                Clock Signal                |        Enable Signal       | Set/Reset Signal | Slice Load Count | Bel Load Count | Bels / Slice |
++--------------------------------------------+----------------------------+------------------+------------------+----------------+--------------+
+|  u_btn_count/u_btn_debounce/q_reg_reg[1]_0 |                            | reset_IBUF       |                1 |              2 |         2.00 |
+|  clk_IBUF_BUFG                             |                            |                  |                2 |              3 |         1.50 |
+|  clk_IBUF_BUFG                             | u_I2C_Slave/slv_sel_next   |                  |                2 |              7 |         3.50 |
+|  u_btn_count/u_btn_debounce/r_1khz         |                            | reset_IBUF       |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG                             | u_I2C_Slave/slv_reg3_next  | reset_IBUF       |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG                             | u_I2C_Slave/slv_reg1_next  | reset_IBUF       |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG                             | u_I2C_Slave/slv_reg2_next  | reset_IBUF       |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG                             | u_I2C_Slave/slv_reg0_next  | reset_IBUF       |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG                             | u_I2C_Slave/temp_data_next | reset_IBUF       |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG                             |                            | reset_IBUF       |               17 |             49 |         2.88 |
++--------------------------------------------+----------------------------+------------------+------------------+----------------+--------------+
+
+
