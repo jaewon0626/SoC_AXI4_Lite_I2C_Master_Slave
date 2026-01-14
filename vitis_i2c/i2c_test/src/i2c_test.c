@@ -1,0 +1,282 @@
+/******************************************************************************
+*
+* Basys3 I2C Master Control with Custom GPIO
+*
+* GPIO Register Map:
+*   0x00: CR  (Control Register)  - Direction (0=Input, 1=Output)
+*   0x04: ODR (Output Data Reg)   - Output Data
+*   0x08: IDR (Input Data Reg)    - Input Data (Read Only)
+*
+* Button Mapping (gpio_0 - Input):
+*   bit 0: BTNC (Center) - Not used
+*   bit 1: BTNU (Up)     - I2C Enable
+*   bit 2: BTND (Down)   - Not used
+*   bit 3: BTNL (Left)   - I2C Stop
+*   bit 4: BTNR (Right)  - I2C Start
+*
+* Switch Mapping (gpio_1 - Input):
+*   bit 0: SW0 - LED Direction (0=Forward 0->7, 1=Backward 7->0)
+*
+* LED Mapping (gpio_2 - Output):
+*   bit [7:0]: LED[7:0]
+*
+******************************************************************************/
+
+#include "xparameters.h"
+#include "xil_io.h"
+#include "xil_printf.h"
+#include "sleep.h"
+
+// ============================================================================
+// GPIO Base Addresses
+// ============================================================================
+#define GPIO_BTN_BASEADDR     0x44A00000  // gpio_0 (Button)
+#define GPIO_SW_BASEADDR      0x44A10000  // gpio_1 (Switch)
+#define GPIO_LED_BASEADDR     0x44A20000  // gpio_2 (LED)
+
+// ============================================================================
+// I2C Master Base Address
+// ============================================================================
+#define I2C_MASTER_BASEADDR   0x44A30000
+#define I2C_REG_CTRL          0x00
+#define I2C_REG_STATUS        0x04
+
+// ============================================================================
+// Custom GPIO Register Offsets
+// ============================================================================
+#define GPIO_CR_OFFSET        0x00  // Control Register (Direction)
+#define GPIO_ODR_OFFSET       0x04  // Output Data Register
+#define GPIO_IDR_OFFSET       0x08  // Input Data Register
+
+// ============================================================================
+// Button Bit Positions
+// ============================================================================
+#define BTN_CENTER  0x01  // bit 0: BTNC
+#define BTN_UP      0x02  // bit 1: BTNU → I2C Enable
+#define BTN_DOWN    0x04  // bit 2: BTND
+#define BTN_LEFT    0x08  // bit 3: BTNL → I2C Stop
+#define BTN_RIGHT   0x10  // bit 4: BTNR → I2C Start
+
+// ============================================================================
+// I2C Control Bits
+// ============================================================================
+#define I2C_START_BIT  (1 << 8)
+#define I2C_EN_BIT     (1 << 9)
+#define I2C_STOP_BIT   (1 << 10)
+
+// ============================================================================
+// GPIO Access Macros (Custom GPIO)
+// ============================================================================
+#define GPIO_SET_DIRECTION(base, dir)  Xil_Out32((base) + GPIO_CR_OFFSET, (dir))
+#define GPIO_WRITE(base, val)          Xil_Out32((base) + GPIO_ODR_OFFSET, (val))
+#define GPIO_READ(base)                Xil_In32((base) + GPIO_IDR_OFFSET)
+
+// ============================================================================
+// Function Prototypes
+// ============================================================================
+void init_gpio(void);
+void i2c_write_ctrl(u32 base, u8 data, u8 start, u8 en, u8 stop);
+u8 i2c_read_data(u32 base);
+u8 i2c_tx_done(u32 base);
+u8 i2c_ready(u32 base);
+void led_pattern_forward(void);
+void led_pattern_backward(void);
+
+// ============================================================================
+// Main Function
+// ============================================================================
+int main(void)
+{
+    u32 btn_data, btn_prev = 0;
+    u32 sw_data;
+    u8 i2c_en_state = 0;
+
+    xil_printf("\r\n");
+    xil_printf("================================================\r\n");
+    xil_printf("  Basys3 I2C Master with Custom GPIO\r\n");
+    xil_printf("================================================\r\n");
+
+    // GPIO 초기화
+    init_gpio();
+
+    // LED 초기화 (모두 OFF)
+    GPIO_WRITE(GPIO_LED_BASEADDR, 0x00);
+
+    xil_printf("\r\nSystem Ready!\r\n");
+    xil_printf("\r\n[Button Control]\r\n");
+    xil_printf("  BTNR (Right): I2C Start\r\n");
+    xil_printf("  BTNL (Left) : I2C Stop\r\n");
+    xil_printf("  BTNU (Up)   : I2C Enable Toggle\r\n");
+    xil_printf("\r\n[Switch Control]\r\n");
+    xil_printf("  SW0 = 0: LED Forward Pattern  (LED0->LED7)\r\n");
+    xil_printf("  SW0 = 1: LED Backward Pattern (LED7->LED0)\r\n");
+    xil_printf("\r\n================================================\r\n\r\n");
+
+    // ========================================================================
+    // Main Loop
+    // ========================================================================
+    while(1)
+    {
+        // 버튼 읽기 (IDR 레지스터)
+        btn_data = GPIO_READ(GPIO_BTN_BASEADDR) & 0xFF;
+
+        // 스위치 읽기 (IDR 레지스터)
+        sw_data = GPIO_READ(GPIO_SW_BASEADDR) & 0xFF;
+
+        // ====================================================================
+        // I2C 제어 (버튼 엣지 감지)
+        // ====================================================================
+        if (btn_data != btn_prev)
+        {
+            // BTNR (I2C Start)
+            if ((btn_data & BTN_RIGHT) && !(btn_prev & BTN_RIGHT)) {
+                xil_printf("[BTN] I2C START pressed\r\n");
+
+                // 슬레이브 주소 0x50 Write (0x50 << 1 | 0 = 0xA0)
+                i2c_write_ctrl(I2C_MASTER_BASEADDR, 0xA0, 1, 1, 0);
+
+                // tx_done 대기
+                usleep(10000);
+                int timeout = 1000;
+                while(!i2c_tx_done(I2C_MASTER_BASEADDR) && timeout-- > 0) {
+                    usleep(100);
+                }
+
+                if (timeout > 0) {
+                    xil_printf("      Address sent: 0xA0\r\n");
+                    xil_printf("      Ready: %d, TX_Done: %d\r\n",
+                               i2c_ready(I2C_MASTER_BASEADDR),
+                               i2c_tx_done(I2C_MASTER_BASEADDR));
+                } else {
+                    xil_printf("      Timeout!\r\n");
+                }
+            }
+
+            // BTNL (I2C Stop)
+            if ((btn_data & BTN_LEFT) && !(btn_prev & BTN_LEFT)) {
+                xil_printf("[BTN] I2C STOP pressed\r\n");
+                i2c_write_ctrl(I2C_MASTER_BASEADDR, 0x00, 0, i2c_en_state, 1);
+                usleep(10000);
+                xil_printf("      Stop condition sent\r\n");
+            }
+
+            // BTNU (I2C Enable Toggle)
+            if ((btn_data & BTN_UP) && !(btn_prev & BTN_UP)) {
+                i2c_en_state = !i2c_en_state;
+                xil_printf("[BTN] I2C ENABLE = %d\r\n", i2c_en_state);
+
+                i2c_write_ctrl(I2C_MASTER_BASEADDR, 0x00, 0, i2c_en_state, 0);
+            }
+
+            btn_prev = btn_data;
+        }
+
+        // ====================================================================
+        // LED 패턴 제어 (스위치 0으로 방향 제어)
+        // ====================================================================
+        if (sw_data & 0x01) {
+            // SW0 = 1: 역방향 패턴 (7->0)
+            led_pattern_backward();
+        } else {
+            // SW0 = 0: 순방향 패턴 (0->7)
+            led_pattern_forward();
+        }
+
+        usleep(50000);  // 50ms delay
+    }
+
+    return 0;
+}
+
+// ============================================================================
+// GPIO Initialization
+// ============================================================================
+void init_gpio(void)
+{
+    // CR (Control Register) 설정: 0=Input, 1=Output
+
+    // Button GPIO: 모두 Input (CR = 0x00)
+    GPIO_SET_DIRECTION(GPIO_BTN_BASEADDR, 0x00);
+
+    // Switch GPIO: 모두 Input (CR = 0x00)
+    GPIO_SET_DIRECTION(GPIO_SW_BASEADDR, 0x00);
+
+    // LED GPIO: 모두 Output (CR = 0xFF)
+    GPIO_SET_DIRECTION(GPIO_LED_BASEADDR, 0xFF);
+
+    xil_printf("GPIO Initialization: SUCCESS\r\n");
+    xil_printf("  - Button GPIO @ 0x%08X (Input)\r\n", GPIO_BTN_BASEADDR);
+    xil_printf("  - Switch GPIO @ 0x%08X (Input)\r\n", GPIO_SW_BASEADDR);
+    xil_printf("  - LED GPIO    @ 0x%08X (Output)\r\n", GPIO_LED_BASEADDR);
+    xil_printf("  - I2C Master  @ 0x%08X\r\n", I2C_MASTER_BASEADDR);
+}
+
+// ============================================================================
+// I2C Control Functions
+// ============================================================================
+
+void i2c_write_ctrl(u32 base, u8 data, u8 start, u8 en, u8 stop)
+{
+    u32 ctrl_val = (data & 0xFF) |
+                   ((start & 0x1) << 8) |
+                   ((en & 0x1) << 9) |
+                   ((stop & 0x1) << 10);
+    Xil_Out32(base + I2C_REG_CTRL, ctrl_val);
+}
+
+u8 i2c_read_data(u32 base)
+{
+    u32 status = Xil_In32(base + I2C_REG_STATUS);
+    return (u8)(status & 0xFF);
+}
+
+u8 i2c_tx_done(u32 base)
+{
+    u32 status = Xil_In32(base + I2C_REG_STATUS);
+    return (u8)((status >> 8) & 0x1);
+}
+
+u8 i2c_ready(u32 base)
+{
+    u32 status = Xil_In32(base + I2C_REG_STATUS);
+    return (u8)((status >> 9) & 0x1);
+}
+
+// ============================================================================
+// LED Pattern Functions
+// ============================================================================
+
+void led_pattern_forward(void)
+{
+    static u8 led_pos = 0;
+    static u32 counter = 0;
+
+    counter++;
+
+    // 약 100ms마다 LED 이동 (50ms * 2)
+    if (counter >= 2) {
+        GPIO_WRITE(GPIO_LED_BASEADDR, (1 << led_pos));
+        led_pos++;
+        if (led_pos > 7) led_pos = 0;
+        counter = 0;
+    }
+}
+
+void led_pattern_backward(void)
+{
+    static u8 led_pos = 7;
+    static u32 counter = 0;
+
+    counter++;
+
+    if (counter >= 2) {
+        GPIO_WRITE(GPIO_LED_BASEADDR, (1 << led_pos));
+
+        if (led_pos == 0)
+            led_pos = 7;
+        else
+            led_pos--;
+
+        counter = 0;
+    }
+}
