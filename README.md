@@ -24,6 +24,7 @@
 - FSM 설계 : IDLE → START → DATA → ACK → STOP 순의 상태 천이를 통한 I2C 타이밍 제어 
 - 레지스터 맵 : CR, TX_DATA, RX_DATA, SR 등을 주소에 매핑하여 S/W 제어 인터페이스 제공 
 - AXI GPIO : 4개의 푸시 버튼(Up, Down, Left, Right) 입력 신호의 CPU 전달 
+<br>
 
 #### B. Slave Board 설계 (RTL Logic)
 - I2C_Slave :
@@ -31,11 +32,13 @@
 > Slave Address(SLV_ADDR) 매칭 시 데이터 수신 및 내부 레지스터(slv_reg0~3) 저장 
 > fndController : 수신된 8비트 데이터를 7-Segment Display(FND) 구동 신호로 변환 및 출력 
 > btn_push_counter : Slave 자체 버튼 입력을 통한 FND 표시 레지스터 인덱스(sel) 변경 기능 구현 
+<br>
 
 ### 소프트웨어 설계 (Vitis - C Application)
 #### A. 구조체 및 주소 정의
 - 제어 구조체 선언 : AXI 레지스터 오프셋(CMD, TX_DATA, RX_DATA, SR)에 맞춘 IIC_typedef 구조체 정의
 - Memory Mapped I/O : Base Address(0x44a00000)를 포인터로 매핑하여 하드웨어 직접 제어
+<br>
 
 #### B. 메인 동작 알고리즘
 - 초기화 : GPIO 및 I2C 통신 초기 설정 수행
@@ -47,10 +50,12 @@
 - BTND : 카운터 값 감소 및 언더플로우 처리 
 - BTNL : 카운터 0으로 리셋 
 - 데이터 전송 : 값 변경 시 send_single_data() 호출을 통한 Slave 전송
+<br>
 
 #### C. I2C 드라이버 함수 구현
 - send_single_data : Start → Slave Address → Register Address → Data → Stop의 전체 트랜잭션 관리
 - write_IIC : tx_data 레지스터 쓰기 및 WR_CM 명령 전달, SR 레지스터 Polling을 통한 전송 완료 대기
+<br>
 
 ### 전체 동작 시나리오 (Operation Flow)
 - 사용자 입력 : Master 보드의 BTNU(Up) 버튼 입력 
@@ -58,16 +63,16 @@
 - H/W 통신 (Master) : MicroBlaze가 I2C IP 제어, SCL/SDA 라인을 통해 패킷(Addr, Data) 직렬 전송 
 - H/W 수신 (Slave) : I2C_Slave 모듈에서 주소 확인 및 slv_reg0 레지스터에 데이터 저장
 - 출력 : fndController가 저장된 값을 읽어 FND에 숫자 표시 
-
+<br>
 
 ### 프로젝트 핵심 성과 및 의의
 - Full-Stack FPGA 설계: RTL IP 설계부터 Block Design 시스템 통합, Firmware 개발까지 임베디드 시스템 전 과정 수행 
 - Custom IP 개발: 상용 IP 없이 I2C 프로토콜 분석을 바탕으로 FSM 기반 Master/Slave 모듈 직접 설계(RTL) 
 - HW/SW Co-design: AXI4-Lite 인터페이스를 활용하여 S/W(C언어)가 H/W 레지스터를 제어하는 SoC 구조 구현 및 이해 
 - 검증 및 신뢰성 확보: Vivado 시뮬레이션 파형 검증 및 실제 보드 테스트를 통한 기능 동작 확인
+<br>
 
 ## 특징
-
 ### AXI4-Lite
 #### - AXI4-Lite는 ARM의 AMBA AXI4 규격 중 간단한 제어/상태 레지스터 접근용 경량 인터페이스입니다. 복잡한 데이터 버스트 전송이 필요 없는 경우 주로 사용됩니다.
 > AXI나 AHB는 GPIO, UART, FND, TIMER 같은 저속 제어 장치에는 불필요하게 복잡, 전력 소모 ↑
