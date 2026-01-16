@@ -12,7 +12,7 @@
 - Protocol : I2C (Inter-Integrated Circuit) 2-wire Interface 
 
 ## System Architecture
-<img width="997" height="265" alt="image" src="https://github.com/user-attachments/assets/96129277-23f1-4d80-89b2-e6581b12eb72" />
+<img width="997" height="265" alt="스크린샷 2026-01-13 104609" src="https://github.com/user-attachments/assets/d84697a8-86b1-4cb9-a4e3-5facbc2d7fa3" />
 <br>
 
 ### 하드웨어 시스템 아키텍처 (Vivado Design)
