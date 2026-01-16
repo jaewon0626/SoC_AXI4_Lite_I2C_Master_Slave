@@ -71,7 +71,7 @@
 
 ## 특징
 ### AXI4-Lite
-#### - AXI4-Lite는 ARM의 AMBA AXI4 규격 중 간단한 제어/상태 레지스터 접근용 경량 인터페이스입니다. 복잡한 데이터 버스트 전송이 필요 없는 경우 주로 사용됩니다.
+#### - AXI4-Lite는 ARM의 AMBA AXI4 규격 중 간단한 제어/상태 레지스터 접근용 경량 인터페이스입니다. 복잡한 데이터 버스트 전송이 필요 없는 경우 사용
 > AXI나 AHB는 GPIO, UART, FND, TIMER 같은 저속 제어 장치에는 불필요하게 복잡, 전력 소모 ↑
 > -> SoC 전체 성능과 효율을 높이기 위해 저속 장치들은 APB 버스로 연결
 
@@ -97,7 +97,7 @@
 - 직렬 통신 : 한 번에 한 비트씩 데이터를 전송
 - 2선 통신 : 데이터 전송 선(SDA)와 클럭 신호 선(SCL) 두 개의 선으로 이루어짐
 - 반이중(Half Duplex) 통신 : 마스터 → 슬레이브 혹은 슬레이브 → 마스터로 한 번에 한 방향으로만 통신이 가능
-<img width="671" height="234" alt="image" src="https://github.com/user-attachments/assets/81b71c27-2710-48cb-b366-3daba1a54f2d" />
+
 <br>
 
 <img width="460" height="171" alt="image" src="https://github.com/user-attachments/assets/5926296e-d3e3-4ba9-8d07-8ad21ef2d4cf" />
@@ -105,4 +105,4 @@
 <br>
 
 ### - 시리얼 통신
-<img width="1908" height="632" alt="image" src="https://github.com/user-attachments/assets/60887902-8606-4b6c-8374-66a5f72adf23" />
+
