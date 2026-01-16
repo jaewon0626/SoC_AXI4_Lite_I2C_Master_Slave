@@ -24,7 +24,6 @@
 - FSM 설계 : IDLE → START → DATA → ACK → STOP 순의 상태 천이를 통한 I2C 타이밍 제어 
 - 레지스터 맵 : CR, TX_DATA, RX_DATA, SR 등을 주소에 매핑하여 S/W 제어 인터페이스 제공 
 - AXI GPIO : 4개의 푸시 버튼(Up, Down, Left, Right) 입력 신호의 CPU 전달 
-<br>
 
 #### B. Slave Board 설계 (RTL Logic)
 - I2C_Slave :
@@ -38,7 +37,6 @@
 #### A. 구조체 및 주소 정의
 - 제어 구조체 선언 : AXI 레지스터 오프셋(CMD, TX_DATA, RX_DATA, SR)에 맞춘 IIC_typedef 구조체 정의
 - Memory Mapped I/O : Base Address(0x44a00000)를 포인터로 매핑하여 하드웨어 직접 제어
-<br>
 
 #### B. 메인 동작 알고리즘
 - 초기화 : GPIO 및 I2C 통신 초기 설정 수행
@@ -50,7 +48,6 @@
 - BTND : 카운터 값 감소 및 언더플로우 처리 
 - BTNL : 카운터 0으로 리셋 
 - 데이터 전송 : 값 변경 시 send_single_data() 호출을 통한 Slave 전송
-<br>
 
 #### C. I2C 드라이버 함수 구현
 - send_single_data : Start → Slave Address → Register Address → Data → Stop의 전체 트랜잭션 관리
