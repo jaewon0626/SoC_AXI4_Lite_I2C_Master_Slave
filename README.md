@@ -98,11 +98,7 @@
 - 2선 통신 : 데이터 전송 선(SDA)와 클럭 신호 선(SCL) 두 개의 선으로 이루어짐
 - 반이중(Half Duplex) 통신 : 마스터 → 슬레이브 혹은 슬레이브 → 마스터로 한 번에 한 방향으로만 통신이 가능
 
+#### - 시리얼 통신
+<img width="961" height="325" alt="image" src="https://github.com/user-attachments/assets/53e0bc87-ccf3-429c-b342-97bc08594e94" />
 <br>
-
-<img width="460" height="171" alt="image" src="https://github.com/user-attachments/assets/5926296e-d3e3-4ba9-8d07-8ad21ef2d4cf" />
-<img width="723" height="221" alt="image" src="https://github.com/user-attachments/assets/dfcebd75-c139-4ae2-b79a-9e5d80485906" />
-<br>
-
-### - 시리얼 통신
 
